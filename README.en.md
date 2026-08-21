@@ -10,6 +10,18 @@ Todo is a personal session-planning addon for level-80 characters on the “Tita
 
 For the complete product, interaction, data, and acceptance baseline, see [Todo v1 product and feature design (Chinese)](docs/Todo-v1-product-design.md). `beta.1` implements the first installable, plannable, executable, and persistent end-to-end development loop. Features that have not yet been validated in the live client are explicitly labeled “not observed,” “not verified,” or “unavailable” in the UI and `/todo doctor`; this build must not be described as fully compatible with 38002 yet.
 
+## In-game UI preview
+
+> These images are generated from the current ElvUI-inspired interactive prototype and sample data. They are development previews, not screenshots from the live Titan Timewalking 38002 client. The final in-game appearance remains subject to live-client validation.
+
+### Current plan
+
+![Todo current-plan development preview](docs/images/todo-plan-preview.jpg)
+
+### Session setup
+
+![Todo session-setup development preview](docs/images/todo-session-setup-preview.jpg)
+
 ## Implemented in beta.1
 
 - Only characters at exactly level 80 can generate plans, track time, or collect valuation data. Other levels only see an access explanation.
