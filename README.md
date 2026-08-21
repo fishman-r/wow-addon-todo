@@ -1,5 +1,9 @@
 # Todo
 
+[**⬇ 直接下载 Todo 1.0.0-beta.1 安装包（ZIP）**](https://github.com/fishman-r/wow-addon-todo/releases/download/v1.0.0-beta.1/Todo-1.0.0-beta.1.zip)
+
+> 下载后解压，将其中的 `Todo` 文件夹放入 `_classic_titan_/Interface/AddOns/`。当前版本仍需在泰坦时光服 38002 客户端中完成真机验证。
+
 Todo 是面向“泰坦重铸·时光服”80 级角色的个人上线规划插件。本仓库当前版本为 `1.0.0-beta.1`，目标客户端为 `Interface: 38002`。
 
 产品、交互、数据口径与完整验收基线见 [Todo v1 产品与功能设计](docs/Todo-v1-product-design.md)。`beta.1` 已经实现第一条可安装、可生成、可执行、可保存的研发闭环；尚未完成时光服真机事实核验的能力会在 UI 和 `/todo doctor` 中明确显示为“未观察”“未验证”或“不可用”，不能据此宣称已经兼容 38002。

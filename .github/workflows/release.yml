@@ -1,0 +1,55 @@
+name: Release addon package
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install Lua 5.1 and ZIP tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes lua5.1 zip
+          sudo ln -sf /usr/bin/lua5.1 /usr/local/bin/lua
+          sudo ln -sf /usr/bin/luac5.1 /usr/local/bin/luac
+
+      - name: Verify tag matches the addon version
+        shell: bash
+        run: |
+          version="$(awk -F': ' '$1 == "## Version" { print $2 }' Todo/Todo.toc)"
+          test "v${version}" = "${GITHUB_REF_NAME}"
+
+      - name: Test and package
+        run: ./scripts/package.sh
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          archive="dist/Todo-${version}.zip"
+          (cd dist && sha256sum "Todo-${version}.zip" > "Todo-${version}.zip.sha256")
+
+          release_flags=()
+          if [[ "$version" == *-* ]]; then
+            release_flags+=(--prerelease)
+          fi
+
+          gh release create "$GITHUB_REF_NAME" \
+            "$archive#Todo ${version} 安装包" \
+            "${archive}.sha256#SHA-256 校验文件" \
+            --title "Todo ${version}" \
+            --notes "面向泰坦重铸·时光服 Interface 38002 的 Todo 插件安装包。下载 ZIP 后解压，将 Todo 文件夹放入 _classic_titan_/Interface/AddOns/。" \
+            --verify-tag \
+            "${release_flags[@]}"
