@@ -1,5 +1,7 @@
 # Todo
 
+**简体中文** | [English](README.en.md)
+
 [**⬇ 直接下载 Todo 1.0.0-beta.1 安装包（ZIP）**](https://github.com/fishman-r/wow-addon-todo/raw/refs/heads/main/releases/Todo-1.0.0-beta.1.zip)
 
 > 下载后解压，将其中的 `Todo` 文件夹放入 `_classic_titan_/Interface/AddOns/`。当前版本仍需在泰坦时光服 38002 客户端中完成真机验证。
