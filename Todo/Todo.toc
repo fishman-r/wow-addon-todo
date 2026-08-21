@@ -1,0 +1,17 @@
+## Interface: 38002
+## Title: Todo
+## Title-zhCN: Todo
+## Notes: A session planner for level-80 Titan Reforged characters.
+## Notes-zhCN: 面向 80 级泰坦时光服角色的上线规划助手。
+## Author: rpy
+## Version: 1.0.0-beta.1
+## SavedVariables: TodoDB, TitanFlowHelloDB
+
+Compat38002.lua
+Catalog.lua
+Store.lua
+Valuation.lua
+Planner.lua
+Tracking.lua
+UI.lua
+Todo.lua

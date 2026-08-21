@@ -1,0 +1,3425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Todo v1 交互稿</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Todo v1 交互稿" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;Todo v1 交互稿&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: var(--border-radius-lg, 12.5px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress {
+  display: flex;
+  height: 6px;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: 16px !important;
+  height: 16px !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;section id=&quot;todo-v1-design&quot; aria-label=&quot;Todo v1 界面设计预览&quot;&gt;
+  &lt;style&gt;
+    #todo-v1-design {
+      color-scheme: light dark;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, sans-serif;
+      color: light-dark(#20242a, #e8edf3);
+    }
+
+    #todo-v1-design * {
+      box-sizing: border-box;
+    }
+
+    #todo-v1-design button,
+    #todo-v1-design input,
+    #todo-v1-design select {
+      font: inherit;
+    }
+
+    #todo-v1-design button {
+      cursor: pointer;
+    }
+
+    #todo-v1-design .todo-shell {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      min-height: 690px;
+      overflow: hidden;
+      border: 1px solid light-dark(#9a845a, #876f42);
+      border-radius: 8px;
+      background: light-dark(#eee8dc, #11161e);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+    }
+
+    #todo-v1-design .todo-titlebar {
+      display: flex;
+      align-items: center;
+      min-height: 58px;
+      padding: 9px 14px;
+      gap: 12px;
+      background: light-dark(#2e4358, #172434);
+      border-bottom: 1px solid light-dark(#8a744b, #735f39);
+    }
+
+    #todo-v1-design .todo-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid #b9944d;
+      border-radius: 7px;
+      color: #f2d68d;
+      background: #263b52;
+      font-family: Georgia, serif;
+      font-weight: 800;
+      font-size: 21px;
+    }
+
+    #todo-v1-design .todo-product {
+      min-width: 0;
+      flex: 1;
+    }
+
+    #todo-v1-design .todo-product strong {
+      display: block;
+      color: #f3dfac;
+      letter-spacing: 0.03em;
+      font-size: 17px;
+    }
+
+    #todo-v1-design .todo-product span {
+      display: block;
+      margin-top: 2px;
+      color: #aebbd0;
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-title-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #cbd6e5;
+      font-size: 12px;
+    }
+
+    #todo-v1-design .todo-level,
+    #todo-v1-design .todo-phase {
+      padding: 4px 8px;
+      border: 1px solid rgba(220, 194, 131, 0.45);
+      border-radius: 999px;
+      background: rgba(11, 18, 27, 0.38);
+    }
+
+    #todo-v1-design .todo-close {
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(223, 197, 138, 0.5);
+      border-radius: 5px;
+      background: rgba(15, 22, 31, 0.6);
+      color: #e8d8b3;
+      font-size: 17px;
+    }
+
+    #todo-v1-design .todo-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      background: light-dark(#d8d0c1, #0d1118);
+      border-bottom: 1px solid light-dark(#aaa08c, #2a3441);
+    }
+
+    #todo-v1-design .todo-tab {
+      min-height: 42px;
+      border: 0;
+      border-right: 1px solid light-dark(#b7ad9d, #252f3b);
+      border-bottom: 3px solid transparent;
+      background: transparent;
+      color: light-dark(#4f555e, #aeb8c5);
+      font-size: 13px;
+    }
+
+    #todo-v1-design .todo-tab:last-child {
+      border-right: 0;
+    }
+
+    #todo-v1-design .todo-tab[aria-selected=&quot;true&quot;] {
+      border-bottom-color: #c99c48;
+      color: light-dark(#1d2733, #f1d28c);
+      background: light-dark(#f3eee4, #171f29);
+      font-weight: 700;
+    }
+
+    #todo-v1-design .todo-content {
+      min-width: 0;
+      min-height: 590px;
+    }
+
+    #todo-v1-design .todo-page {
+      display: none;
+      min-width: 0;
+      padding: 16px;
+    }
+
+    #todo-v1-design .todo-page[data-active=&quot;true&quot;] {
+      display: block;
+    }
+
+    #todo-v1-design .todo-session-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    #todo-v1-design .todo-session-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    #todo-v1-design .todo-session-copy h2,
+    #todo-v1-design .todo-section-heading h3 {
+      margin: 0;
+      color: light-dark(#243342, #eef3fa);
+    }
+
+    #todo-v1-design .todo-session-copy h2 {
+      font-size: 18px;
+    }
+
+    #todo-v1-design .todo-session-copy p {
+      margin: 5px 0 0;
+      color: light-dark(#666c75, #9ca8b7);
+      font-size: 12px;
+    }
+
+    #todo-v1-design .todo-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    #todo-v1-design .todo-action,
+    #todo-v1-design .todo-quiet-action,
+    #todo-v1-design .todo-add-action,
+    #todo-v1-design .todo-modal-action {
+      min-height: 32px;
+      padding: 6px 11px;
+      border-radius: 5px;
+      border: 1px solid light-dark(#967943, #9f8147);
+    }
+
+    #todo-v1-design .todo-action,
+    #todo-v1-design .todo-modal-action[data-primary=&quot;true&quot;] {
+      background: light-dark(#284c6c, #254b6e);
+      color: #f3e3b9;
+    }
+
+    #todo-v1-design .todo-quiet-action,
+    #todo-v1-design .todo-add-action,
+    #todo-v1-design .todo-modal-action {
+      background: light-dark(#f6f0e5, #1a222d);
+      color: light-dark(#344250, #d6dee9);
+    }
+
+    #todo-v1-design .todo-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    #todo-v1-design .todo-metric {
+      min-height: 76px;
+      padding: 11px;
+      border: 1px solid light-dark(#c8beab, #2d3947);
+      border-radius: 6px;
+      background: light-dark(#faf6ed, #171e27);
+    }
+
+    #todo-v1-design .todo-metric span {
+      display: block;
+      color: light-dark(#747980, #8f9cac);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-metric strong {
+      display: block;
+      margin-top: 5px;
+      color: light-dark(#263747, #f0d694);
+      font-size: 17px;
+    }
+
+    #todo-v1-design .todo-metric small {
+      display: block;
+      margin-top: 2px;
+      color: light-dark(#7a7f86, #7f8c9c);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-notice {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 10px 0 14px;
+      padding: 9px 11px;
+      border-left: 3px solid #c59642;
+      background: light-dark(#fff5d9, #292316);
+      color: light-dark(#63501f, #e5c879);
+      font-size: 12px;
+    }
+
+    #todo-v1-design .todo-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(230px, 0.75fr);
+      gap: 12px;
+    }
+
+    #todo-v1-design .todo-plan-stack,
+    #todo-v1-design .todo-search-block {
+      min-width: 0;
+    }
+
+    #todo-v1-design .todo-surface {
+      min-width: 0;
+      border: 1px solid light-dark(#c7bdac, #2c3744);
+      border-radius: 6px;
+      background: light-dark(#faf7f0, #151c24);
+      overflow: hidden;
+    }
+
+    #todo-v1-design .todo-section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 43px;
+      padding: 9px 11px;
+      border-bottom: 1px solid light-dark(#ded5c6, #293440);
+      background: light-dark(#f0e9dc, #19222d);
+    }
+
+    #todo-v1-design .todo-section-heading h3 {
+      font-size: 13px;
+    }
+
+    #todo-v1-design .todo-section-heading span {
+      color: light-dark(#777b81, #91a0af);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-focus-item {
+      padding: 12px;
+    }
+
+    #todo-v1-design .todo-focus-main {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    #todo-v1-design .todo-focus-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid #8f7342;
+      border-radius: 5px;
+      color: #f0d48f;
+      background: #28384b;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    #todo-v1-design .todo-focus-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    #todo-v1-design .todo-focus-copy strong {
+      display: block;
+      color: light-dark(#243342, #ecf1f7);
+      font-size: 14px;
+    }
+
+    #todo-v1-design .todo-focus-copy span {
+      display: block;
+      margin-top: 4px;
+      color: light-dark(#737880, #93a0af);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    #todo-v1-design .todo-route {
+      padding: 4px 0;
+    }
+
+    #todo-v1-design .todo-route-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr) auto;
+      gap: 9px;
+      align-items: start;
+      padding: 10px 11px;
+      border-bottom: 1px solid light-dark(#e2dbcf, #25303b);
+    }
+
+    #todo-v1-design .todo-route-row:last-child {
+      border-bottom: 0;
+    }
+
+    #todo-v1-design .todo-route-node {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border: 1px solid light-dark(#9a8358, #8d7447);
+      border-radius: 50%;
+      color: light-dark(#5d491e, #e5c778);
+      background: light-dark(#f7ecd1, #252116);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    #todo-v1-design .todo-route-node[data-kind=&quot;move&quot;] {
+      border-style: dashed;
+      color: light-dark(#345e7b, #8eb6d2);
+      background: transparent;
+    }
+
+    #todo-v1-design .todo-route-node[data-kind=&quot;block&quot;] {
+      border-radius: 5px;
+      color: #f0d48f;
+      background: #28384b;
+    }
+
+    #todo-v1-design .todo-subheading {
+      border-top: 1px solid light-dark(#ded5c6, #293440);
+    }
+
+    #todo-v1-design .todo-route-copy {
+      min-width: 0;
+    }
+
+    #todo-v1-design .todo-route-copy strong {
+      display: block;
+      color: light-dark(#283846, #e8edf4);
+      font-size: 13px;
+    }
+
+    #todo-v1-design .todo-route-copy span {
+      display: block;
+      margin-top: 4px;
+      color: light-dark(#71767d, #929fae);
+      font-size: 11px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    #todo-v1-design .todo-route-copy em {
+      color: light-dark(#735a25, #d4b465);
+      font-style: normal;
+    }
+
+    #todo-v1-design .todo-task-toggle {
+      width: 26px;
+      height: 26px;
+      border: 1px solid light-dark(#b4a78f, #3b4653);
+      border-radius: 4px;
+      background: light-dark(#fffdf7, #111820);
+      color: light-dark(#325a75, #8eb5d1);
+    }
+
+    #todo-v1-design .todo-route-row[data-complete=&quot;true&quot;] .todo-route-copy {
+      opacity: 0.55;
+    }
+
+    #todo-v1-design .todo-route-row[data-complete=&quot;true&quot;] .todo-route-copy strong {
+      text-decoration: line-through;
+    }
+
+    #todo-v1-design .todo-detail {
+      display: none;
+      grid-column: 2 / -1;
+      margin-top: 4px;
+      padding: 9px;
+      border-left: 2px solid #9b7d45;
+      background: light-dark(#f3eee4, #111820);
+      color: light-dark(#5c6269, #aab5c2);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    #todo-v1-design .todo-route-row[data-expanded=&quot;true&quot;] .todo-detail {
+      display: block;
+    }
+
+    #todo-v1-design .todo-candidate-group {
+      margin-bottom: 12px;
+    }
+
+    #todo-v1-design .todo-search-block {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 10px;
+      border: 1px solid light-dark(#c7bdac, #2c3744);
+      border-radius: 6px;
+      background: light-dark(#faf7f0, #151c24);
+    }
+
+    #todo-v1-design .todo-search-block input {
+      width: 100%;
+      min-height: 34px;
+      padding: 6px 9px;
+      border: 1px solid light-dark(#aaa08e, #3b4754);
+      border-radius: 4px;
+      background: light-dark(#fffdf8, #101720);
+      color: light-dark(#283642, #e0e7ef);
+    }
+
+    #todo-v1-design .todo-search-count {
+      color: light-dark(#6d7279, #95a1af);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    #todo-v1-design .todo-empty-note[hidden],
+    #todo-v1-design [data-search-hidden=&quot;true&quot;] {
+      display: none;
+    }
+
+    #todo-v1-design .todo-import-panel {
+      margin-bottom: 12px;
+    }
+
+    #todo-v1-design .todo-import-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(190px, 0.8fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 12px;
+      border-bottom: 1px solid light-dark(#e0d8ca, #27323e);
+    }
+
+    #todo-v1-design .todo-import-row:last-child {
+      border-bottom: 0;
+    }
+
+    #todo-v1-design .todo-import-status {
+      color: light-dark(#516574, #a9bac8);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    #todo-v1-design .todo-import-result {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0;
+      padding: 10px 12px;
+      color: light-dark(#52683a, #b8d18d);
+      background: light-dark(#edf3df, #172217);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-import-result[hidden] {
+      display: none;
+    }
+
+    #todo-v1-design .todo-candidate-row,
+    #todo-v1-design .todo-value-row,
+    #todo-v1-design .todo-setting-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(110px, 0.7fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 12px;
+      border-bottom: 1px solid light-dark(#e0d8ca, #27323e);
+    }
+
+    #todo-v1-design .todo-candidate-row:last-child,
+    #todo-v1-design .todo-value-row:last-child,
+    #todo-v1-design .todo-setting-row:last-child {
+      border-bottom: 0;
+    }
+
+    #todo-v1-design .todo-candidate-copy strong,
+    #todo-v1-design .todo-value-copy strong,
+    #todo-v1-design .todo-setting-copy strong {
+      display: block;
+      color: light-dark(#263541, #e8edf4);
+      font-size: 13px;
+    }
+
+    #todo-v1-design .todo-candidate-copy span,
+    #todo-v1-design .todo-value-copy span,
+    #todo-v1-design .todo-setting-copy span {
+      display: block;
+      margin-top: 4px;
+      color: light-dark(#777b82, #919dab);
+      font-size: 11px;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+
+    #todo-v1-design .todo-candidate-value,
+    #todo-v1-design .todo-value-number {
+      text-align: right;
+      color: light-dark(#6d5421, #dfbf70);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    #todo-v1-design .todo-candidate-row[data-muted=&quot;true&quot;] {
+      opacity: 0.55;
+    }
+
+    #todo-v1-design .todo-add-action {
+      white-space: nowrap;
+    }
+
+    #todo-v1-design .todo-empty-note {
+      padding: 16px;
+      color: light-dark(#6d7279, #95a1af);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    #todo-v1-design .todo-setting-row {
+      grid-template-columns: minmax(0, 1fr) minmax(160px, 0.7fr);
+    }
+
+    #todo-v1-design .todo-setting-control {
+      text-align: right;
+    }
+
+    #todo-v1-design .todo-setting-control input[type=&quot;number&quot;],
+    #todo-v1-design .todo-setting-control select,
+    #todo-v1-design .todo-field input,
+    #todo-v1-design .todo-field select {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid light-dark(#aaa08e, #3b4754);
+      border-radius: 4px;
+      background: light-dark(#fffdf8, #101720);
+      color: light-dark(#283642, #e0e7ef);
+      padding: 6px 8px;
+    }
+
+    #todo-v1-design .todo-switch-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: light-dark(#3f4851, #c7d0db);
+      font-size: 12px;
+    }
+
+    #todo-v1-design .todo-danger {
+      border-color: light-dark(#a05b4c, #a95d4f);
+      color: light-dark(#8a3f32, #e59a8f);
+      background: transparent;
+    }
+
+    #todo-v1-design .todo-overlay {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(4, 8, 13, 0.72);
+      z-index: 20;
+    }
+
+    #todo-v1-design .todo-overlay[data-open=&quot;true&quot;] {
+      display: grid;
+    }
+
+    #todo-v1-design .todo-modal {
+      width: min(650px, 100%);
+      max-height: 92%;
+      overflow: auto;
+      border: 1px solid #9b7d45;
+      border-radius: 8px;
+      background: light-dark(#f4eee2, #121922);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    #todo-v1-design .todo-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid light-dark(#cfc3ae, #303b48);
+      background: light-dark(#e8dfcf, #182330);
+    }
+
+    #todo-v1-design .todo-modal-header h3 {
+      margin: 0;
+      color: light-dark(#243442, #f0e1b7);
+      font-size: 17px;
+    }
+
+    #todo-v1-design .todo-modal-header p {
+      margin: 4px 0 0;
+      color: light-dark(#6d7279, #9da9b7);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-modal-body {
+      padding: 14px 16px;
+    }
+
+    #todo-v1-design .todo-mode-picker {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    #todo-v1-design .todo-mode-option {
+      padding: 10px;
+      border: 1px solid light-dark(#b2a58e, #3a4653);
+      border-radius: 5px;
+      background: light-dark(#fffaf0, #101820);
+      color: light-dark(#34414c, #c9d2dc);
+      text-align: left;
+    }
+
+    #todo-v1-design .todo-mode-option[aria-pressed=&quot;true&quot;] {
+      border-color: #b88e45;
+      background: light-dark(#f3e5c6, #28301f);
+      color: light-dark(#5d471c, #f0d28a);
+    }
+
+    #todo-v1-design .todo-mode-option strong,
+    #todo-v1-design .todo-mode-option span {
+      display: block;
+    }
+
+    #todo-v1-design .todo-mode-option span {
+      margin-top: 3px;
+      font-size: 10px;
+      opacity: 0.76;
+    }
+
+    #todo-v1-design .todo-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    #todo-v1-design .todo-field label {
+      display: block;
+      margin-bottom: 5px;
+      color: light-dark(#555d66, #aeb8c4);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-budget-preview {
+      margin: 12px 0;
+      padding: 10px 11px;
+      border-left: 3px solid #557d9b;
+      background: light-dark(#e9f1f5, #13222d);
+      color: light-dark(#36556a, #a9c7dc);
+      font-size: 12px;
+    }
+
+    #todo-v1-design .todo-duration-preview output {
+      margin-left: 4px;
+      color: light-dark(#203b4d, #e6f4ff);
+      font-weight: 700;
+    }
+
+    #todo-v1-design .todo-duration-preview small {
+      display: block;
+      margin-top: 3px;
+      color: light-dark(#5d6d78, #91a8b8);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-raid-picker {
+      margin-top: 12px;
+      border: 1px solid light-dark(#c9beaa, #303b47);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    #todo-v1-design .todo-raid-picker[data-visible=&quot;false&quot;] {
+      display: none;
+    }
+
+    #todo-v1-design .todo-raid-title {
+      padding: 9px 10px;
+      background: light-dark(#ebe3d5, #1a2430);
+      color: light-dark(#4d4434, #d5c294);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    #todo-v1-design .todo-raid-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-top: 1px solid light-dark(#ddd3c3, #293440);
+      color: light-dark(#4f555d, #b7c2cf);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-raid-row span:nth-child(2) {
+      min-width: 0;
+      flex: 1;
+    }
+
+    #todo-v1-design .todo-raid-row em {
+      color: light-dark(#765b23, #d7ba71);
+      font-style: normal;
+    }
+
+    #todo-v1-design .todo-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid light-dark(#cfc4b1, #2f3a47);
+    }
+
+    #todo-v1-design .todo-app-frame {
+      position: relative;
+    }
+
+    @media (max-width: 720px) {
+      #todo-v1-design .todo-shell {
+        min-height: 760px;
+      }
+
+      #todo-v1-design .todo-title-status {
+        display: none;
+      }
+
+      #todo-v1-design .todo-page {
+        padding: 11px;
+      }
+
+      #todo-v1-design .todo-session-line,
+      #todo-v1-design .todo-layout {
+        display: block;
+      }
+
+      #todo-v1-design .todo-actions {
+        justify-content: flex-start;
+        margin-top: 10px;
+      }
+
+      #todo-v1-design .todo-metrics {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #todo-v1-design .todo-layout &gt; * + * {
+        margin-top: 12px;
+      }
+
+      #todo-v1-design .todo-route-row {
+        grid-template-columns: 26px minmax(0, 1fr);
+      }
+
+      #todo-v1-design .todo-route-row &gt; .todo-quiet-action,
+      #todo-v1-design .todo-route-row &gt; .todo-task-toggle {
+        grid-column: 2;
+        justify-self: start;
+      }
+
+      #todo-v1-design .todo-detail {
+        grid-column: 2;
+      }
+
+      #todo-v1-design .todo-candidate-row,
+      #todo-v1-design .todo-value-row,
+      #todo-v1-design .todo-import-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      #todo-v1-design .todo-candidate-value,
+      #todo-v1-design .todo-value-number,
+      #todo-v1-design .todo-import-status {
+        grid-column: 1 / -1;
+        text-align: left;
+      }
+
+      #todo-v1-design .todo-search-block {
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      #todo-v1-design .todo-search-count {
+        grid-column: 1 / -1;
+      }
+
+      #todo-v1-design .todo-tabs {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #todo-v1-design .todo-tab:nth-child(2) {
+        border-right: 0;
+      }
+
+      #todo-v1-design .todo-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ElvUI-inspired visual skin: original geometry and interactions stay intact. */
+    #todo-v1-design {
+      color-scheme: dark;
+      --todo-elv-bg: #101010;
+      --todo-elv-panel: #1a1a1a;
+      --todo-elv-panel-raised: #222222;
+      --todo-elv-panel-deep: #0c0c0c;
+      --todo-elv-edge: #000000;
+      --todo-elv-edge-soft: #333333;
+      --todo-elv-accent: #1785d1;
+      --todo-elv-accent-soft: #18364b;
+      --todo-elv-text: #e6e6e6;
+      --todo-elv-text-strong: #ffffff;
+      --todo-elv-muted: #999999;
+      --todo-elv-disabled: #5f5f5f;
+      --todo-elv-success: #36c75a;
+      --todo-elv-warning: #ffd100;
+      --todo-elv-danger: #e05252;
+      --todo-elv-gold: #ffd36a;
+      font-family: &quot;Arial Narrow&quot;, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;
+      color: var(--todo-elv-text);
+      font-weight: 400;
+      text-shadow: 0 1px 0 #000;
+    }
+
+    #todo-v1-design strong,
+    #todo-v1-design button,
+    #todo-v1-design h2,
+    #todo-v1-design h3 {
+      font-weight: 500;
+    }
+
+    #todo-v1-design * {
+      scrollbar-color: #444 var(--todo-elv-panel-deep);
+      scrollbar-width: thin;
+    }
+
+    #todo-v1-design ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    #todo-v1-design ::-webkit-scrollbar-track {
+      background: var(--todo-elv-panel-deep);
+    }
+
+    #todo-v1-design ::-webkit-scrollbar-thumb {
+      border: 1px solid var(--todo-elv-edge);
+      background: #444;
+    }
+
+    #todo-v1-design .todo-shell {
+      min-height: 620px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      background: var(--todo-elv-bg);
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft), 0 0 14px rgba(0, 0, 0, 0.72);
+    }
+
+    #todo-v1-design .todo-titlebar {
+      min-height: 38px;
+      padding: 5px 8px;
+      gap: 8px;
+      border-bottom: 1px solid var(--todo-elv-edge);
+      background: var(--todo-elv-panel-deep);
+      box-shadow: inset 0 -1px 0 var(--todo-elv-edge-soft);
+    }
+
+    #todo-v1-design .todo-mark {
+      width: 25px;
+      height: 25px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      color: #8fcfff;
+      background: var(--todo-elv-accent-soft);
+      box-shadow: inset 0 0 0 1px #30566d;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    #todo-v1-design .todo-product strong {
+      color: var(--todo-elv-text-strong);
+      font-size: 14px;
+      letter-spacing: 0;
+    }
+
+    #todo-v1-design .todo-product span {
+      margin-top: 0;
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-title-status {
+      gap: 5px;
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-level,
+    #todo-v1-design .todo-phase {
+      padding: 3px 6px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      color: var(--todo-elv-text);
+      background: var(--todo-elv-panel);
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft);
+    }
+
+    #todo-v1-design .todo-phase {
+      color: var(--todo-elv-gold);
+    }
+
+    #todo-v1-design .todo-close {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      color: #b7b7b7;
+      background: var(--todo-elv-panel);
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft);
+      font-size: 14px;
+    }
+
+    #todo-v1-design .todo-close:hover {
+      border-color: var(--todo-elv-danger);
+      color: #fff;
+      background: #381818;
+    }
+
+    #todo-v1-design .todo-tabs {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2px;
+      padding: 3px;
+      border-bottom: 1px solid var(--todo-elv-edge);
+      background: #080808;
+    }
+
+    #todo-v1-design .todo-tab,
+    #todo-v1-design .todo-tab:last-child {
+      min-height: 29px;
+      border: 1px solid var(--todo-elv-edge);
+      border-right: 1px solid var(--todo-elv-edge);
+      border-bottom: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      color: #a8a8a8;
+      background: var(--todo-elv-panel);
+      box-shadow: inset 0 0 0 1px #292929;
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-tab:hover {
+      border-color: var(--todo-elv-accent);
+      color: var(--todo-elv-text-strong);
+    }
+
+    #todo-v1-design .todo-tab[aria-selected=&quot;true&quot;] {
+      border-color: var(--todo-elv-accent);
+      border-bottom-color: var(--todo-elv-accent);
+      color: var(--todo-elv-text-strong);
+      background: var(--todo-elv-accent-soft);
+      box-shadow: inset 0 -2px 0 var(--todo-elv-accent);
+      font-weight: 500;
+    }
+
+    #todo-v1-design .todo-content {
+      min-height: 560px;
+      background: var(--todo-elv-bg);
+    }
+
+    #todo-v1-design .todo-page {
+      padding: 9px;
+    }
+
+    #todo-v1-design .todo-session-line {
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    #todo-v1-design .todo-session-copy h2,
+    #todo-v1-design .todo-section-heading h3 {
+      color: var(--todo-elv-text-strong);
+    }
+
+    #todo-v1-design .todo-session-copy h2 {
+      font-size: 14px;
+    }
+
+    #todo-v1-design .todo-session-copy p {
+      margin-top: 2px;
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-actions {
+      gap: 5px;
+    }
+
+    #todo-v1-design .todo-action,
+    #todo-v1-design .todo-quiet-action,
+    #todo-v1-design .todo-add-action,
+    #todo-v1-design .todo-modal-action {
+      min-height: 27px;
+      padding: 4px 8px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-action,
+    #todo-v1-design .todo-modal-action[data-primary=&quot;true&quot;] {
+      color: #d9f1ff;
+      background: #174263;
+      box-shadow: inset 0 0 0 1px #28658e;
+    }
+
+    #todo-v1-design .todo-quiet-action,
+    #todo-v1-design .todo-add-action,
+    #todo-v1-design .todo-modal-action {
+      color: var(--todo-elv-text);
+      background: var(--todo-elv-panel-raised);
+    }
+
+    #todo-v1-design button:hover:not(:disabled) {
+      border-color: var(--todo-elv-accent);
+      color: var(--todo-elv-text-strong);
+      background-color: #22384a;
+    }
+
+    #todo-v1-design button:active:not(:disabled) {
+      transform: translateY(1px);
+      background-color: #102b3f;
+    }
+
+    #todo-v1-design button:disabled {
+      cursor: default;
+      color: var(--todo-elv-disabled);
+      background: #151515;
+      opacity: 0.62;
+    }
+
+    #todo-v1-design .todo-metrics {
+      gap: 1px;
+      margin-bottom: 7px;
+      padding: 1px;
+      border: 1px solid var(--todo-elv-edge);
+      background: var(--todo-elv-edge);
+      box-shadow: 0 0 0 1px var(--todo-elv-edge-soft);
+    }
+
+    #todo-v1-design .todo-metric {
+      min-height: 54px;
+      padding: 7px 8px;
+      border: 0;
+      border-radius: 0;
+      background: var(--todo-elv-panel);
+    }
+
+    #todo-v1-design .todo-metric span {
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-metric strong {
+      margin-top: 2px;
+      color: var(--todo-elv-text-strong);
+      font-size: 14px;
+    }
+
+    #todo-v1-design .todo-metric:first-child strong {
+      color: #62b9f2;
+    }
+
+    #todo-v1-design .todo-metric small {
+      margin-top: 0;
+      color: #7d7d7d;
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-notice {
+      margin: 7px 0;
+      padding: 7px 9px;
+      border: 1px solid var(--todo-elv-edge);
+      border-left: 2px solid var(--todo-elv-warning);
+      color: #e9d98b;
+      background: #201e12;
+      box-shadow: inset 0 0 0 1px #3a3520;
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-layout {
+      gap: 7px;
+    }
+
+    #todo-v1-design .todo-surface,
+    #todo-v1-design .todo-search-block {
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      background: var(--todo-elv-panel);
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft);
+    }
+
+    #todo-v1-design .todo-section-heading {
+      min-height: 32px;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--todo-elv-edge);
+      background: var(--todo-elv-panel-raised);
+      box-shadow: inset 0 -1px 0 var(--todo-elv-edge-soft);
+    }
+
+    #todo-v1-design .todo-section-heading h3 {
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-section-heading span {
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-focus-item {
+      padding: 8px;
+      background: var(--todo-elv-panel);
+    }
+
+    #todo-v1-design .todo-focus-icon {
+      width: 26px;
+      height: 26px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      color: var(--todo-elv-gold);
+      background: #292313;
+      box-shadow: inset 0 0 0 1px #4d4125;
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    #todo-v1-design .todo-focus-copy strong {
+      color: var(--todo-elv-text-strong);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-focus-copy span {
+      margin-top: 2px;
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    #todo-v1-design .todo-route {
+      padding: 0;
+    }
+
+    #todo-v1-design .todo-route-row {
+      grid-template-columns: 22px minmax(0, 1fr) auto;
+      gap: 7px;
+      padding: 7px 8px;
+      border-bottom: 1px solid #2b2b2b;
+      background: #171717;
+    }
+
+    #todo-v1-design .todo-route-row:hover {
+      background: #202020;
+    }
+
+    #todo-v1-design .todo-route-node {
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      color: #b7b7b7;
+      background: var(--todo-elv-panel-raised);
+      box-shadow: inset 0 0 0 1px #444;
+      font-size: 9px;
+      font-weight: 500;
+    }
+
+    #todo-v1-design .todo-route-node[data-kind=&quot;move&quot;] {
+      border: 1px solid var(--todo-elv-edge);
+      color: #7cc9fa;
+      background: #102536;
+      box-shadow: inset 0 0 0 1px #275574;
+    }
+
+    #todo-v1-design .todo-route-node[data-kind=&quot;block&quot;] {
+      border-radius: 0;
+      color: var(--todo-elv-gold);
+      background: #2c2512;
+      box-shadow: inset 0 0 0 1px #5c4d24;
+    }
+
+    #todo-v1-design .todo-subheading {
+      border-top: 1px solid var(--todo-elv-edge);
+      border-left: 2px solid var(--todo-elv-accent);
+    }
+
+    #todo-v1-design .todo-route-copy strong {
+      color: var(--todo-elv-text-strong);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-route-copy span {
+      margin-top: 2px;
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    #todo-v1-design .todo-route-copy em,
+    #todo-v1-design .todo-candidate-value,
+    #todo-v1-design .todo-value-number {
+      color: var(--todo-elv-gold);
+    }
+
+    #todo-v1-design .todo-task-toggle {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      color: #8bcfff;
+      background: var(--todo-elv-panel-raised);
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft);
+    }
+
+    #todo-v1-design .todo-route-row[data-complete=&quot;true&quot;] .todo-route-copy {
+      opacity: 0.48;
+    }
+
+    #todo-v1-design .todo-route-row[data-complete=&quot;true&quot;] .todo-task-toggle {
+      color: var(--todo-elv-success);
+    }
+
+    #todo-v1-design .todo-detail {
+      margin-top: 2px;
+      padding: 7px;
+      border-left: 2px solid var(--todo-elv-accent);
+      color: #b9b9b9;
+      background: var(--todo-elv-panel-deep);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    #todo-v1-design .todo-candidate-group,
+    #todo-v1-design .todo-import-panel {
+      margin-bottom: 7px;
+    }
+
+    #todo-v1-design .todo-search-block {
+      gap: 5px;
+      margin-bottom: 7px;
+      padding: 6px;
+    }
+
+    #todo-v1-design .todo-search-block input,
+    #todo-v1-design .todo-setting-control input[type=&quot;number&quot;],
+    #todo-v1-design .todo-setting-control select,
+    #todo-v1-design .todo-field input,
+    #todo-v1-design .todo-field select {
+      min-height: 28px;
+      padding: 4px 7px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      color: var(--todo-elv-text);
+      background: var(--todo-elv-panel-deep);
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-search-block input:focus,
+    #todo-v1-design .todo-setting-control input:focus,
+    #todo-v1-design .todo-setting-control select:focus,
+    #todo-v1-design .todo-field input:focus,
+    #todo-v1-design .todo-field select:focus {
+      border-color: var(--todo-elv-accent);
+    }
+
+    #todo-v1-design input[type=&quot;checkbox&quot;],
+    #todo-v1-design input[type=&quot;radio&quot;] {
+      accent-color: var(--todo-elv-accent);
+    }
+
+    #todo-v1-design .todo-search-count {
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-candidate-row,
+    #todo-v1-design .todo-value-row,
+    #todo-v1-design .todo-setting-row,
+    #todo-v1-design .todo-import-row {
+      gap: 7px;
+      padding: 7px 8px;
+      border-bottom: 1px solid #2b2b2b;
+      background: #171717;
+    }
+
+    #todo-v1-design .todo-candidate-row:hover,
+    #todo-v1-design .todo-value-row:hover,
+    #todo-v1-design .todo-setting-row:hover,
+    #todo-v1-design .todo-import-row:hover {
+      background: #202020;
+    }
+
+    #todo-v1-design .todo-candidate-copy strong,
+    #todo-v1-design .todo-value-copy strong,
+    #todo-v1-design .todo-setting-copy strong {
+      color: var(--todo-elv-text-strong);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-candidate-copy span,
+    #todo-v1-design .todo-value-copy span,
+    #todo-v1-design .todo-setting-copy span {
+      margin-top: 2px;
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    #todo-v1-design .todo-candidate-value,
+    #todo-v1-design .todo-value-number,
+    #todo-v1-design .todo-import-status {
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-candidate-row[data-muted=&quot;true&quot;] {
+      opacity: 0.48;
+    }
+
+    #todo-v1-design .todo-empty-note {
+      padding: 12px;
+      color: var(--todo-elv-muted);
+      background: var(--todo-elv-panel);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-import-status {
+      color: #a7a7a7;
+      line-height: 1.35;
+    }
+
+    #todo-v1-design .todo-import-result {
+      padding: 7px 8px;
+      color: #8fe7a2;
+      background: #102114;
+      border-top: 1px solid var(--todo-elv-edge);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-switch-label {
+      color: var(--todo-elv-text);
+      font-size: 11px;
+    }
+
+    #todo-v1-design .todo-danger {
+      border-color: var(--todo-elv-danger);
+      color: #ff9d9d;
+      background: #261111;
+    }
+
+    #todo-v1-design .todo-overlay {
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.82);
+    }
+
+    #todo-v1-design .todo-modal {
+      width: min(650px, 100%);
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      background: var(--todo-elv-bg);
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft), 0 0 16px rgba(0, 0, 0, 0.85);
+    }
+
+    #todo-v1-design .todo-modal-header {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--todo-elv-edge);
+      background: var(--todo-elv-panel-raised);
+      box-shadow: inset 0 -1px 0 var(--todo-elv-edge-soft);
+    }
+
+    #todo-v1-design .todo-modal-header h3 {
+      color: var(--todo-elv-text-strong);
+      font-size: 13px;
+    }
+
+    #todo-v1-design .todo-modal-header p {
+      margin-top: 2px;
+      color: var(--todo-elv-muted);
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-modal-body {
+      padding: 9px 10px;
+    }
+
+    #todo-v1-design .todo-mode-picker {
+      gap: 4px;
+      margin-bottom: 7px;
+    }
+
+    #todo-v1-design .todo-mode-option {
+      padding: 7px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      color: #b7b7b7;
+      background: var(--todo-elv-panel);
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft);
+    }
+
+    #todo-v1-design .todo-mode-option[aria-pressed=&quot;true&quot;] {
+      border-color: var(--todo-elv-accent);
+      color: var(--todo-elv-text-strong);
+      background: var(--todo-elv-accent-soft);
+      box-shadow: inset 2px 0 0 var(--todo-elv-accent);
+    }
+
+    #todo-v1-design .todo-mode-option span {
+      margin-top: 2px;
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-fields {
+      gap: 7px;
+    }
+
+    #todo-v1-design .todo-field label {
+      margin-bottom: 3px;
+      color: #b2b2b2;
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-budget-preview {
+      margin: 7px 0;
+      padding: 7px 8px;
+      border: 1px solid var(--todo-elv-edge);
+      border-left: 2px solid var(--todo-elv-accent);
+      color: #b8dcf5;
+      background: #10202c;
+      box-shadow: inset 0 0 0 1px #263b4a;
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-duration-preview output {
+      color: var(--todo-elv-text-strong);
+      font-weight: 500;
+    }
+
+    #todo-v1-design .todo-duration-preview small {
+      color: var(--todo-elv-muted);
+    }
+
+    #todo-v1-design .todo-raid-picker {
+      margin-top: 7px;
+      border: 1px solid var(--todo-elv-edge);
+      border-radius: 0;
+      box-shadow: inset 0 0 0 1px var(--todo-elv-edge-soft);
+    }
+
+    #todo-v1-design .todo-raid-title {
+      padding: 6px 8px;
+      color: var(--todo-elv-gold);
+      background: var(--todo-elv-panel-raised);
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    #todo-v1-design .todo-raid-row {
+      gap: 6px;
+      padding: 6px 8px;
+      border-top: 1px solid #2b2b2b;
+      color: #b7b7b7;
+      background: #171717;
+      font-size: 10px;
+    }
+
+    #todo-v1-design .todo-raid-row:hover {
+      background: #202020;
+    }
+
+    #todo-v1-design .todo-raid-row em {
+      color: var(--todo-elv-gold);
+    }
+
+    #todo-v1-design .todo-modal-footer {
+      gap: 5px;
+      padding: 7px 10px;
+      border-top: 1px solid var(--todo-elv-edge);
+      background: var(--todo-elv-panel-deep);
+    }
+
+    @media (max-width: 720px) {
+      #todo-v1-design .todo-shell {
+        min-height: 700px;
+      }
+
+      #todo-v1-design .todo-page {
+        padding: 7px;
+      }
+
+      #todo-v1-design .todo-tabs {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      #todo-v1-design .todo-tab:nth-child(2) {
+        border-right: 1px solid var(--todo-elv-edge);
+      }
+
+      #todo-v1-design .todo-route-row {
+        grid-template-columns: 22px minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 440px) {
+      #todo-v1-design .todo-tabs {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #todo-v1-design .todo-product span {
+        display: none;
+      }
+
+      #todo-v1-design .todo-metrics {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #todo-v1-design .todo-session-copy h2 {
+        font-size: 13px;
+      }
+    }
+  &lt;/style&gt;
+
+  &lt;div class=&quot;todo-app-frame&quot;&gt;
+    &lt;div class=&quot;todo-shell&quot;&gt;
+      &lt;header class=&quot;todo-titlebar&quot;&gt;
+        &lt;div class=&quot;todo-mark&quot; aria-hidden=&quot;true&quot;&gt;T&lt;/div&gt;
+        &lt;div class=&quot;todo-product&quot;&gt;
+          &lt;strong&gt;Todo&lt;/strong&gt;
+          &lt;span&gt;泰坦时光服 · 本次上线助手 · 示例数据&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;todo-title-status&quot;&gt;
+          &lt;span class=&quot;todo-level&quot;&gt;80 级&lt;/span&gt;
+          &lt;span class=&quot;todo-phase&quot;&gt;P5&lt;/span&gt;
+          &lt;span&gt;窗口 00:46&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;button class=&quot;todo-close&quot; type=&quot;button&quot; aria-label=&quot;关闭窗口&quot;&gt;×&lt;/button&gt;
+      &lt;/header&gt;
+
+      &lt;nav class=&quot;todo-tabs&quot; aria-label=&quot;Todo 主页面&quot;&gt;
+        &lt;button class=&quot;todo-tab&quot; type=&quot;button&quot; data-tab=&quot;plan&quot; aria-selected=&quot;true&quot;&gt;本次计划&lt;/button&gt;
+        &lt;button class=&quot;todo-tab&quot; type=&quot;button&quot; data-tab=&quot;candidates&quot; aria-selected=&quot;false&quot;&gt;全部候选&lt;/button&gt;
+        &lt;button class=&quot;todo-tab&quot; type=&quot;button&quot; data-tab=&quot;values&quot; aria-selected=&quot;false&quot;&gt;估值数据&lt;/button&gt;
+        &lt;button class=&quot;todo-tab&quot; type=&quot;button&quot; data-tab=&quot;settings&quot; aria-selected=&quot;false&quot;&gt;设置&lt;/button&gt;
+      &lt;/nav&gt;
+
+      &lt;main class=&quot;todo-content&quot;&gt;
+        &lt;section class=&quot;todo-page&quot; data-page=&quot;plan&quot; data-active=&quot;true&quot;&gt;
+          &lt;div class=&quot;todo-session-line&quot;&gt;
+            &lt;div class=&quot;todo-session-copy&quot;&gt;
+              &lt;h2 data-plan-title&gt;假期计划 · 从达拉然出发&lt;/h2&gt;
+              &lt;p data-plan-meta&gt;预设本次可玩 4 小时 · 初始自动规划预算 3 小时 24 分 · 计划生成于 19:08&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-actions&quot;&gt;
+              &lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot; data-open-setup&gt;本次参数&lt;/button&gt;
+              &lt;button class=&quot;todo-action&quot; type=&quot;button&quot;&gt;重新规划&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;todo-metrics&quot;&gt;
+            &lt;div class=&quot;todo-metric&quot;&gt;
+              &lt;span&gt;本次用时&lt;/span&gt;
+              &lt;strong data-session-time&gt;0:39 / 4:00&lt;/strong&gt;
+              &lt;small&gt;超出预设后继续累计&lt;/small&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-metric&quot;&gt;
+              &lt;span&gt;当前明确净价值&lt;/span&gt;
+              &lt;strong data-plan-value&gt;327 金&lt;/strong&gt;
+              &lt;small data-plan-generated-value&gt;生成时 312 金&lt;/small&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-metric&quot;&gt;
+              &lt;span&gt;收益路线效率&lt;/span&gt;
+              &lt;strong data-route-efficiency&gt;286 金/时&lt;/strong&gt;
+              &lt;small&gt;已包含区域移动&lt;/small&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-metric&quot;&gt;
+              &lt;span&gt;完成进度&lt;/span&gt;
+              &lt;strong data-plan-progress&gt;1 / 4&lt;/strong&gt;
+              &lt;small data-plan-progress-note&gt;另有 1 项价值不完整&lt;/small&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;todo-notice&quot; data-plan-notice&gt;估值数据已变化：萨隆邪铁锭缓存更新。计划成员和顺序保持不变。&lt;/div&gt;
+
+          &lt;div class=&quot;todo-plan-stack&quot;&gt;
+            &lt;section class=&quot;todo-surface&quot;&gt;
+              &lt;div class=&quot;todo-section-heading&quot;&gt;
+                &lt;h3&gt;本次计划清单&lt;/h3&gt;
+                &lt;span data-plan-total&gt;计划总计 177 分钟&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-route&quot;&gt;
+                &lt;div class=&quot;todo-route-row&quot; data-plan-raid&gt;
+                  &lt;span class=&quot;todo-route-node&quot; data-kind=&quot;block&quot;&gt;团&lt;/span&gt;
+                  &lt;div class=&quot;todo-route-copy&quot;&gt;
+                    &lt;strong data-plan-raid-name&gt;SW · 太阳井高地&lt;/strong&gt;
+                    &lt;span data-plan-raid-detail&gt;普通时间块 · 本周未完成 · 预计 120 分钟 · 已包含集合与前往&lt;/span&gt;
+                  &lt;/div&gt;
+                  &lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot;&gt;开始计时&lt;/button&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;todo-section-heading todo-subheading&quot;&gt;
+                  &lt;h3&gt;收益路线&lt;/h3&gt;
+                  &lt;span data-route-total&gt;总计 57 分钟&lt;/span&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;todo-route-row&quot;&gt;
+                  &lt;span class=&quot;todo-route-node&quot;&gt;起&lt;/span&gt;
+                  &lt;div class=&quot;todo-route-copy&quot;&gt;
+                    &lt;strong data-plan-start&gt;达拉然&lt;/strong&gt;
+                    &lt;span&gt;用户手选开始区域&lt;/span&gt;
+                  &lt;/div&gt;
+                  &lt;span&gt;&lt;/span&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;todo-route-row&quot; data-plan-step data-step-kind=&quot;move&quot; data-step-minutes=&quot;12&quot;&gt;
+                  &lt;span class=&quot;todo-route-node&quot; data-kind=&quot;move&quot;&gt;→&lt;/span&gt;
+                  &lt;div class=&quot;todo-route-copy&quot;&gt;
+                    &lt;strong&gt;前往冰冠冰川&lt;/strong&gt;
+                    &lt;span data-first-move-detail&gt;预计 12 分钟 · 来源：本角色中位数&lt;/span&gt;
+                  &lt;/div&gt;
+                  &lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot;&gt;开始前往&lt;/button&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;todo-route-row&quot; data-plan-step data-step-kind=&quot;task&quot; data-step-minutes=&quot;11&quot; data-step-value=&quot;82&quot; data-task-row data-complete=&quot;true&quot;&gt;
+                  &lt;span class=&quot;todo-route-node&quot;&gt;1&lt;/span&gt;
+                  &lt;div class=&quot;todo-route-copy&quot;&gt;
+                    &lt;strong&gt;暗影拱顶固定日常&lt;/strong&gt;
+                    &lt;span&gt;净价值 82 金 · 11 分钟 · &lt;em&gt;447 金/小时&lt;/em&gt;&lt;/span&gt;
+                  &lt;/div&gt;
+                  &lt;button class=&quot;todo-task-toggle&quot; type=&quot;button&quot; aria-label=&quot;切换完成状态&quot;&gt;✓&lt;/button&gt;
+                  &lt;div class=&quot;todo-detail&quot;&gt;直接金币 21 金 · 固定物品 74 金 · 必需材料成本 13 金 · 任务耗时来源：本角色 6 次样本中位数。&lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;todo-route-row&quot; data-plan-step data-step-kind=&quot;task&quot; data-step-minutes=&quot;18&quot; data-step-value=&quot;138&quot; data-task-row data-expanded=&quot;false&quot;&gt;
+                  &lt;span class=&quot;todo-route-node&quot;&gt;2&lt;/span&gt;
+                  &lt;div class=&quot;todo-route-copy&quot;&gt;
+                    &lt;strong&gt;冰冠冰川固定日常&lt;/strong&gt;
+                    &lt;span&gt;净价值 138 金 · 18 分钟 · &lt;em&gt;460 金/小时&lt;/em&gt;&lt;/span&gt;
+                  &lt;/div&gt;
+                  &lt;button class=&quot;todo-task-toggle&quot; type=&quot;button&quot; aria-label=&quot;展开任务详情&quot;&gt;＋&lt;/button&gt;
+                  &lt;div class=&quot;todo-detail&quot;&gt;生成时估值 123 金，当前估值 138 金。奖励：直接金币、可拍卖材料；成本完整。解锁与今日未完成均由客户端确认。&lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;todo-route-row&quot; data-plan-step data-step-kind=&quot;move&quot; data-step-minutes=&quot;6&quot;&gt;
+                  &lt;span class=&quot;todo-route-node&quot; data-kind=&quot;move&quot;&gt;→&lt;/span&gt;
+                  &lt;div class=&quot;todo-route-copy&quot;&gt;
+                    &lt;strong&gt;返回达拉然&lt;/strong&gt;
+                    &lt;span&gt;预计 6 分钟 · 来源：内置参考&lt;/span&gt;
+                  &lt;/div&gt;
+                  &lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot;&gt;本次跳过&lt;/button&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;todo-route-row&quot; data-plan-step data-step-kind=&quot;task&quot; data-step-minutes=&quot;10&quot; data-step-value=&quot;107&quot; data-task-row data-expanded=&quot;false&quot;&gt;
+                  &lt;span class=&quot;todo-route-node&quot;&gt;3&lt;/span&gt;
+                  &lt;div class=&quot;todo-route-copy&quot;&gt;
+                    &lt;strong&gt;今天的达拉然珠宝日常&lt;/strong&gt;
+                    &lt;span&gt;净价值 107 金 · 10 分钟 · &lt;em&gt;642 金/小时&lt;/em&gt;&lt;/span&gt;
+                  &lt;/div&gt;
+                  &lt;button class=&quot;todo-task-toggle&quot; type=&quot;button&quot; aria-label=&quot;展开任务详情&quot;&gt;＋&lt;/button&gt;
+                  &lt;div class=&quot;todo-detail&quot;&gt;专业任务池 · 今天具体任务尚未识别。当前使用池内奖励平均与本角色耗时中位数；展开可查看全部 6 个可能任务。&lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/section&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;todo-page&quot; data-page=&quot;candidates&quot; data-active=&quot;false&quot;&gt;
+          &lt;div class=&quot;todo-session-line&quot;&gt;
+            &lt;div class=&quot;todo-session-copy&quot;&gt;
+              &lt;h2&gt;全部候选&lt;/h2&gt;
+              &lt;p&gt;搜索只过滤展示；分组与任务效率排序保持不变。&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;todo-search-block&quot;&gt;
+            &lt;input type=&quot;search&quot; data-candidate-search aria-label=&quot;搜索全部候选&quot; placeholder=&quot;搜索任务名、区域、专业、活动类型或 questID&quot;&gt;
+            &lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot; data-clear-search&gt;清空&lt;/button&gt;
+            &lt;span class=&quot;todo-search-count&quot; data-search-count&gt;匹配 5 / 全部 5&lt;/span&gt;
+          &lt;/div&gt;
+
+          &lt;section class=&quot;todo-surface todo-candidate-group&quot; data-candidate-group&gt;
+            &lt;div class=&quot;todo-section-heading&quot;&gt;
+              &lt;h3&gt;已确认可执行&lt;/h3&gt;
+              &lt;span data-group-count&gt;2 项&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-candidate-row&quot; data-candidate-item data-search-text=&quot;达拉然 今天的珠宝加工日常 专业 专业池 任务 日常 questID 12958 12959 12960 12961 12962 12963&quot;&gt;
+              &lt;div class=&quot;todo-candidate-copy&quot;&gt;
+                &lt;strong&gt;[达拉然] 今天的珠宝加工日常&lt;/strong&gt;
+                &lt;span&gt;专业池 · 成本完整 · 今日具体任务未知&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-candidate-value&quot;&gt;107 金 · 642 金/时&lt;/div&gt;
+              &lt;button class=&quot;todo-add-action&quot; type=&quot;button&quot; data-add-task&gt;加入本次计划&lt;/button&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-candidate-row&quot; data-candidate-item data-search-text=&quot;冰冠冰川 暗影拱顶固定日常 固定 日常 questID 12995 13069 13071&quot;&gt;
+              &lt;div class=&quot;todo-candidate-copy&quot;&gt;
+                &lt;strong&gt;[冰冠冰川] 暗影拱顶固定日常&lt;/strong&gt;
+                &lt;span&gt;客户端确认未完成 · 本角色 6 次耗时样本&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-candidate-value&quot;&gt;82 金 · 447 金/时&lt;/div&gt;
+              &lt;button class=&quot;todo-add-action&quot; type=&quot;button&quot; data-add-task&gt;加入本次计划&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/section&gt;
+
+          &lt;section class=&quot;todo-surface todo-candidate-group&quot; data-candidate-group&gt;
+            &lt;div class=&quot;todo-section-heading&quot;&gt;
+              &lt;h3&gt;状态未知&lt;/h3&gt;
+              &lt;span data-group-count&gt;1 项&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-candidate-row&quot; data-candidate-item data-search-text=&quot;风暴峭壁 固定声望日常 霍迪尔 声望 固定 日常 questID 12981&quot;&gt;
+              &lt;div class=&quot;todo-candidate-copy&quot;&gt;
+                &lt;strong&gt;[风暴峭壁] 固定声望日常&lt;/strong&gt;
+                &lt;span&gt;解锁状态未知 · 奖励与成本完整&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-candidate-value&quot;&gt;69 金 · 301 金/时&lt;/div&gt;
+              &lt;button class=&quot;todo-add-action&quot; type=&quot;button&quot; data-add-task&gt;加入本次计划&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/section&gt;
+
+          &lt;section class=&quot;todo-surface todo-candidate-group&quot; data-candidate-group&gt;
+            &lt;div class=&quot;todo-section-heading&quot;&gt;
+              &lt;h3&gt;数据不完整或未解锁&lt;/h3&gt;
+              &lt;span data-group-count&gt;2 项&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-candidate-row&quot; data-muted=&quot;true&quot; data-candidate-item data-search-text=&quot;索拉查盆地 固定日常 神谕者 狂心氏族 声望 日常 questID 12704 12702&quot;&gt;
+              &lt;div class=&quot;todo-candidate-copy&quot;&gt;
+                &lt;strong&gt;[索拉查盆地] 固定日常&lt;/strong&gt;
+                &lt;span&gt;缺少必需材料价格 · 净价值无法计算&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-candidate-value&quot;&gt;成本未知&lt;/div&gt;
+              &lt;button class=&quot;todo-add-action&quot; type=&quot;button&quot;&gt;补齐后加入&lt;/button&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-candidate-row&quot; data-muted=&quot;true&quot; data-candidate-item data-search-text=&quot;风暴峭壁 霍迪尔日常 声望 固定 日常 questID 12977 13006 12994&quot;&gt;
+              &lt;div class=&quot;todo-candidate-copy&quot;&gt;
+                &lt;strong&gt;[风暴峭壁] 霍迪尔日常&lt;/strong&gt;
+                &lt;span&gt;明确未解锁 · 缺少前置任务链&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-candidate-value&quot;&gt;—&lt;/div&gt;
+              &lt;button class=&quot;todo-add-action&quot; type=&quot;button&quot; disabled&gt;无法加入&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/section&gt;
+
+          &lt;div class=&quot;todo-empty-note&quot; data-search-empty hidden&gt;没有找到候选。可清空搜索后查看全部任务。&lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;todo-page&quot; data-page=&quot;values&quot; data-active=&quot;false&quot;&gt;
+          &lt;div class=&quot;todo-session-line&quot;&gt;
+            &lt;div class=&quot;todo-session-copy&quot;&gt;
+              &lt;h2&gt;估值数据&lt;/h2&gt;
+              &lt;p&gt;可使用 Todo 原生缓存或从兼容拍卖插件只读导入；两种方式都不会主动查询拍卖行。&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;section class=&quot;todo-surface todo-import-panel&quot;&gt;
+            &lt;div class=&quot;todo-section-heading&quot;&gt;
+              &lt;h3&gt;从已有拍卖插件导入&lt;/h3&gt;
+              &lt;span&gt;只读 · 仅 Todo 所需物品&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-import-row&quot;&gt;
+              &lt;div class=&quot;todo-value-copy&quot;&gt;
+                &lt;strong&gt;Auctionator · 已检测 · 版本 334（示例）&lt;/strong&gt;
+                &lt;span&gt;最近扫描最低单位价 · 仍需 38002 真机验收 · 上次导入：无&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-import-status&quot;&gt;公开 API 可用 · 来源时间未知&lt;br&gt;市场：泰坦 · 联盟&lt;/div&gt;
+              &lt;button class=&quot;todo-action&quot; type=&quot;button&quot; data-import-auction&gt;导入所需物品价格&lt;/button&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-import-row&quot;&gt;
+              &lt;div class=&quot;todo-value-copy&quot;&gt;
+                &lt;strong&gt;TSM / Auctioneer&lt;/strong&gt;
+                &lt;span&gt;保留兼容槽；当前官方版本未验证 Titan&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-import-status&quot;&gt;不解析私有 SavedVariables&lt;br&gt;不接入桌面或网站数据&lt;/div&gt;
+              &lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot; disabled&gt;未验证&lt;/button&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-import-result&quot; data-import-result hidden&gt;
+              &lt;span&gt;导入完成：成功 12 项 · 缺失 2 项 · 跳过 1 项 · 错误 0 项。原有 Todo 缓存保持优先。&lt;/span&gt;
+              &lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot;&gt;查看逐项报告&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/section&gt;
+
+          &lt;div class=&quot;todo-layout&quot;&gt;
+            &lt;section class=&quot;todo-surface&quot;&gt;
+              &lt;div class=&quot;todo-section-heading&quot;&gt;
+                &lt;h3&gt;当前生效价格&lt;/h3&gt;
+                &lt;span&gt;服务器市场：泰坦 · 联盟&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-value-row&quot;&gt;
+                &lt;div class=&quot;todo-value-copy&quot;&gt;
+                  &lt;strong&gt;萨隆邪铁锭&lt;/strong&gt;
+                  &lt;span&gt;Todo 原生缓存 · 最低 20 条有效挂单中位数 · 21:36 采集&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;todo-value-number&quot;&gt;7 金 42 银 / 个&lt;/div&gt;
+                &lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot;&gt;删除缓存&lt;/button&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-value-row&quot;&gt;
+                &lt;div class=&quot;todo-value-copy&quot;&gt;
+                  &lt;strong&gt;永恒之水&lt;/strong&gt;
+                  &lt;span&gt;Auctionator 导入 · 最近扫描最低价 · 来源时间未知 · 21:41 导入&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;todo-value-number&quot;&gt;12 金 18 银 / 个&lt;/div&gt;
+                &lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot;&gt;删除缓存&lt;/button&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-section-heading&quot;&gt;
+                &lt;h3&gt;缺失价格&lt;/h3&gt;
+                &lt;span&gt;2 项&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-value-row&quot;&gt;
+                &lt;div class=&quot;todo-value-copy&quot;&gt;
+                  &lt;strong&gt;北地皮&lt;/strong&gt;
+                  &lt;span&gt;可到原生拍卖行手动搜索、再次导入兼容插件，或手动输入&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;todo-value-number&quot;&gt;当前按商店价&lt;/div&gt;
+                &lt;span&gt;&lt;/span&gt;
+              &lt;/div&gt;
+            &lt;/section&gt;
+
+            &lt;aside class=&quot;todo-surface&quot;&gt;
+              &lt;div class=&quot;todo-section-heading&quot;&gt;
+                &lt;h3&gt;奖励袋&lt;/h3&gt;
+                &lt;span&gt;原始内容账号共享&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-focus-item&quot;&gt;
+                &lt;div class=&quot;todo-focus-copy&quot;&gt;
+                  &lt;strong&gt;钓鱼宝藏袋&lt;/strong&gt;
+                  &lt;span&gt;平均 34 金 · 3 袋&lt;br&gt;低样本，仅供参考&lt;br&gt;另有 1 项物品缺价&lt;/span&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-section-heading&quot;&gt;
+                &lt;h3&gt;专业代币&lt;/h3&gt;
+                &lt;span&gt;当前角色&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-focus-item&quot;&gt;
+                &lt;div class=&quot;todo-focus-copy&quot;&gt;
+                  &lt;strong&gt;达拉然珠宝匠硬币&lt;/strong&gt;
+                  &lt;span&gt;用户估值：65 金 / 枚&lt;br&gt;未设置的代币按 0&lt;/span&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/aside&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;todo-page&quot; data-page=&quot;settings&quot; data-active=&quot;false&quot;&gt;
+          &lt;div class=&quot;todo-session-line&quot;&gt;
+            &lt;div class=&quot;todo-session-copy&quot;&gt;
+              &lt;h2&gt;设置&lt;/h2&gt;
+              &lt;p&gt;解锁、完成、区域和成本等字段可修正；预计耗时只读，由实测或内置数据推算。&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;section class=&quot;todo-surface todo-candidate-group&quot;&gt;
+            &lt;div class=&quot;todo-section-heading&quot;&gt;
+              &lt;h3&gt;推荐与界面&lt;/h3&gt;
+              &lt;span&gt;按角色或账号保存&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-setting-row&quot;&gt;
+              &lt;div class=&quot;todo-setting-copy&quot;&gt;
+                &lt;strong&gt;最低净金币/小时&lt;/strong&gt;
+                &lt;span&gt;留空时仅排除净价值不大于 0 的任务&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-setting-control&quot;&gt;&lt;input type=&quot;number&quot; placeholder=&quot;留空&quot; aria-label=&quot;最低净金币每小时&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-setting-row&quot;&gt;
+              &lt;div class=&quot;todo-setting-copy&quot;&gt;
+                &lt;strong&gt;拍卖手续费&lt;/strong&gt;
+                &lt;span&gt;当前服务器市场，可由用户修正&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-setting-control&quot;&gt;&lt;input type=&quot;number&quot; value=&quot;5&quot; aria-label=&quot;拍卖手续费百分比&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-setting-row&quot;&gt;
+              &lt;div class=&quot;todo-setting-copy&quot;&gt;
+                &lt;strong&gt;常驻显示&lt;/strong&gt;
+                &lt;span&gt;关闭 60 秒窗口隐藏倒计时&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-setting-control&quot;&gt;&lt;label class=&quot;todo-switch-label&quot;&gt;&lt;input type=&quot;checkbox&quot;&gt; 开启常驻&lt;/label&gt;&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/section&gt;
+
+          &lt;section class=&quot;todo-surface todo-candidate-group&quot;&gt;
+            &lt;div class=&quot;todo-section-heading&quot;&gt;
+              &lt;h3&gt;数据修正与清理&lt;/h3&gt;
+              &lt;span&gt;删除操作二次确认&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-setting-row&quot;&gt;
+              &lt;div class=&quot;todo-setting-copy&quot;&gt;
+                &lt;strong&gt;待确认耗时样本&lt;/strong&gt;
+                &lt;span&gt;2 项 · 暂不参与中位数&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-setting-control&quot;&gt;&lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot;&gt;查看样本&lt;/button&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-setting-row&quot;&gt;
+              &lt;div class=&quot;todo-setting-copy&quot;&gt;
+                &lt;strong&gt;恢复任务自动值&lt;/strong&gt;
+                &lt;span&gt;不删除市场价格、奖励袋或历史耗时&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-setting-control&quot;&gt;&lt;button class=&quot;todo-quiet-action&quot; type=&quot;button&quot;&gt;选择字段&lt;/button&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-setting-row&quot;&gt;
+              &lt;div class=&quot;todo-setting-copy&quot;&gt;
+                &lt;strong&gt;清除全部 Todo 用户数据&lt;/strong&gt;
+                &lt;span&gt;内置目录不会删除，此操作不可撤销&lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;todo-setting-control&quot;&gt;&lt;button class=&quot;todo-quiet-action todo-danger&quot; type=&quot;button&quot;&gt;清除全部&lt;/button&gt;&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/section&gt;
+        &lt;/section&gt;
+      &lt;/main&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;todo-overlay&quot; data-setup-overlay data-open=&quot;false&quot;&gt;
+      &lt;section class=&quot;todo-modal&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot; aria-labelledby=&quot;todo-setup-title&quot;&gt;
+        &lt;header class=&quot;todo-modal-header&quot;&gt;
+          &lt;div&gt;
+            &lt;h3 id=&quot;todo-setup-title&quot;&gt;生成本次计划&lt;/h3&gt;
+            &lt;p&gt;上次值已预填；生成后开始按真实墙钟累计本次用时，超出预设也不会停止。&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;button class=&quot;todo-close&quot; type=&quot;button&quot; data-close-setup aria-label=&quot;关闭设置&quot;&gt;×&lt;/button&gt;
+        &lt;/header&gt;
+
+        &lt;div class=&quot;todo-modal-body&quot;&gt;
+          &lt;div class=&quot;todo-mode-picker&quot; aria-label=&quot;选择模式&quot;&gt;
+            &lt;button class=&quot;todo-mode-option&quot; type=&quot;button&quot; data-mode=&quot;workday&quot; aria-pressed=&quot;false&quot;&gt;
+              &lt;strong&gt;工作日&lt;/strong&gt;
+              &lt;span&gt;不自动推荐团本，收益任务单项不超过 30 分钟&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;button class=&quot;todo-mode-option&quot; type=&quot;button&quot; data-mode=&quot;holiday&quot; aria-pressed=&quot;true&quot;&gt;
+              &lt;strong&gt;假期&lt;/strong&gt;
+              &lt;span&gt;优先预留版本较新的团本，再安排收益路线&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;todo-fields&quot;&gt;
+            &lt;div class=&quot;todo-field&quot;&gt;
+              &lt;label for=&quot;todo-hours&quot;&gt;本次至少可玩时长（小时）&lt;/label&gt;
+              &lt;input id=&quot;todo-hours&quot; type=&quot;number&quot; min=&quot;0.25&quot; step=&quot;0.25&quot; value=&quot;4&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;todo-field&quot;&gt;
+              &lt;label for=&quot;todo-start-region&quot;&gt;手选开始区域&lt;/label&gt;
+              &lt;select id=&quot;todo-start-region&quot;&gt;
+                &lt;option value=&quot;dalaran&quot; data-first-move-minutes=&quot;12&quot; selected&gt;达拉然&lt;/option&gt;
+                &lt;option value=&quot;icecrown&quot; data-first-move-minutes=&quot;0&quot;&gt;冰冠冰川&lt;/option&gt;
+                &lt;option value=&quot;storm-peaks&quot; data-first-move-minutes=&quot;18&quot;&gt;风暴峭壁&lt;/option&gt;
+                &lt;option value=&quot;other&quot; data-first-move-minutes=&quot;0&quot;&gt;其他 / 不计算首段路程&lt;/option&gt;
+              &lt;/select&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;todo-budget-preview&quot;&gt;自动规划预算：3 小时 24 分（预设本次可玩时长的 85%）&lt;/div&gt;
+
+          &lt;div class=&quot;todo-budget-preview todo-duration-preview&quot;&gt;
+            &lt;span&gt;系统预计计划用时：&lt;/span&gt;&lt;output data-estimated-duration aria-live=&quot;polite&quot;&gt;2 小时 57 分&lt;/output&gt;
+            &lt;small&gt;根据当前模式、开始区域、团本、任务与移动时间自动推算；不可手动修改&lt;/small&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;todo-raid-picker&quot; data-raid-picker data-visible=&quot;true&quot;&gt;
+            &lt;div class=&quot;todo-raid-title&quot;&gt;团本推荐 · 最新阶段优先 · 最多自动选择一个&lt;/div&gt;
+            &lt;label class=&quot;todo-raid-row&quot;&gt;&lt;input type=&quot;radio&quot; name=&quot;todo-raid&quot; data-duration-minutes=&quot;120&quot; data-raid-name=&quot;SW · 太阳井高地&quot; data-raid-status=&quot;本周未完成&quot; checked&gt;&lt;span&gt;&lt;em&gt;P5&lt;/em&gt; SW · 太阳井高地&lt;/span&gt;&lt;span&gt;2 小时 · 未完成&lt;/span&gt;&lt;/label&gt;
+            &lt;label class=&quot;todo-raid-row&quot;&gt;&lt;input type=&quot;radio&quot; name=&quot;todo-raid&quot; data-duration-minutes=&quot;120&quot; data-raid-name=&quot;ZAM · 祖阿曼&quot; data-raid-status=&quot;状态未知&quot;&gt;&lt;span&gt;&lt;em&gt;P5&lt;/em&gt; ZAM · 祖阿曼&lt;/span&gt;&lt;span&gt;2 小时 · 状态未知&lt;/span&gt;&lt;/label&gt;
+            &lt;label class=&quot;todo-raid-row&quot;&gt;&lt;input type=&quot;radio&quot; name=&quot;todo-raid&quot; data-duration-minutes=&quot;120&quot; data-raid-name=&quot;TOC · 十字军的试炼&quot; data-raid-status=&quot;部分进度&quot;&gt;&lt;span&gt;&lt;em&gt;P4&lt;/em&gt; TOC · 十字军的试炼&lt;/span&gt;&lt;span&gt;2 小时 · 部分进度&lt;/span&gt;&lt;/label&gt;
+            &lt;label class=&quot;todo-raid-row&quot;&gt;&lt;input type=&quot;radio&quot; name=&quot;todo-raid&quot; data-duration-minutes=&quot;30&quot; data-raid-name=&quot;宝库&quot; data-raid-status=&quot;未完成&quot;&gt;&lt;span&gt;宝库&lt;/span&gt;&lt;span&gt;30 分钟 · 固定最末&lt;/span&gt;&lt;/label&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;footer class=&quot;todo-modal-footer&quot;&gt;
+          &lt;button class=&quot;todo-modal-action&quot; type=&quot;button&quot; data-close-setup&gt;取消&lt;/button&gt;
+          &lt;button class=&quot;todo-modal-action&quot; type=&quot;button&quot; data-primary=&quot;true&quot; data-generate&gt;生成本次计划&lt;/button&gt;
+        &lt;/footer&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    (() =&gt; {
+      const root = document.getElementById(&#x27;todo-v1-design&#x27;);
+      if (!root) return;
+
+      const tabs = [...root.querySelectorAll(&#x27;[data-tab]&#x27;)];
+      const pages = [...root.querySelectorAll(&#x27;[data-page]&#x27;)];
+      const overlay = root.querySelector(&#x27;[data-setup-overlay]&#x27;);
+      const hoursInput = root.querySelector(&#x27;#todo-hours&#x27;);
+      const budgetPreview = root.querySelector(&#x27;.todo-budget-preview&#x27;);
+      const estimatedDuration = root.querySelector(&#x27;[data-estimated-duration]&#x27;);
+      const startRegionInput = root.querySelector(&#x27;#todo-start-region&#x27;);
+      const raidPicker = root.querySelector(&#x27;[data-raid-picker]&#x27;);
+      const planSteps = [...root.querySelectorAll(&#x27;[data-plan-step]&#x27;)];
+      const planRaid = root.querySelector(&#x27;[data-plan-raid]&#x27;);
+
+      const formatMinutes = (totalMinutes) =&gt; {
+        const wholeHours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        if (!wholeHours) return `${minutes} 分`;
+        if (!minutes) return `${wholeHours} 小时`;
+        return `${wholeHours} 小时 ${minutes} 分`;
+      };
+
+      const formatClock = (totalMinutes) =&gt; {
+        const wholeHours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        return `${wholeHours}:${String(minutes).padStart(2, &#x27;0&#x27;)}`;
+      };
+
+      const getPlanPreview = () =&gt; {
+        const hours = Math.max(0, Number(hoursInput.value) || 0);
+        const budgetMinutes = Math.round(hours * 60 * 0.85);
+        const selectedMode = root.querySelector(&#x27;[data-mode][aria-pressed=&quot;true&quot;]&#x27;);
+        const holidaySelected = selectedMode &amp;&amp; selectedMode.dataset.mode === &#x27;holiday&#x27;;
+        const selectedRaid = root.querySelector(&#x27;input[name=&quot;todo-raid&quot;]:checked&#x27;);
+        const selectedRaidMinutes = selectedRaid ? Number(selectedRaid.dataset.durationMinutes || 0) : 0;
+        const raidFitsMode = holidaySelected &amp;&amp; (hours &gt;= 3 || selectedRaidMinutes &lt;= 30);
+        const raid = raidFitsMode &amp;&amp; selectedRaid ? selectedRaid : null;
+        const raidMinutes = raid ? selectedRaidMinutes : 0;
+        const selectedRegion = startRegionInput.options[startRegionInput.selectedIndex];
+        const firstMoveMinutes = Number(selectedRegion.dataset.firstMoveMinutes || 0);
+        const availableRouteMinutes = Math.max(0, budgetMinutes - raidMinutes);
+        let routeMinutes = 0;
+        let routeValue = 0;
+        let taskCount = 0;
+        let blocked = false;
+
+        const steps = planSteps.map((step, index) =&gt; {
+          const minutes = index === 0 ? firstMoveMinutes : Number(step.dataset.stepMinutes || 0);
+          if (index === 0 &amp;&amp; minutes === 0) return { included: false, minutes };
+          if (blocked || routeMinutes + minutes &gt; availableRouteMinutes) {
+            blocked = true;
+            return { included: false, minutes };
+          }
+          routeMinutes += minutes;
+          if (step.dataset.stepKind === &#x27;task&#x27;) {
+            taskCount += 1;
+            routeValue += Number(step.dataset.stepValue || 0);
+          }
+          return { included: true, minutes };
+        });
+
+        return {
+          hours,
+          budgetMinutes,
+          mode: holidaySelected ? &#x27;holiday&#x27; : &#x27;workday&#x27;,
+          modeLabel: holidaySelected ? &#x27;假期&#x27; : &#x27;工作日&#x27;,
+          regionLabel: selectedRegion.textContent.replace(&#x27; / 不计算首段路程&#x27;, &#x27;&#x27;),
+          firstMoveMinutes,
+          raid,
+          raidMinutes,
+          routeMinutes,
+          routeValue,
+          taskCount,
+          totalMinutes: raidMinutes + routeMinutes,
+          steps,
+        };
+      };
+
+      const updateEstimatedDuration = () =&gt; {
+        estimatedDuration.textContent = formatMinutes(getPlanPreview().totalMinutes);
+      };
+
+      const applyPlanPreview = (plan) =&gt; {
+        root.querySelector(&#x27;[data-plan-title]&#x27;).textContent = `${plan.modeLabel}计划 · 从${plan.regionLabel}出发`;
+        root.querySelector(&#x27;[data-plan-meta]&#x27;).textContent = `预设本次可玩 ${formatMinutes(Math.round(plan.hours * 60))} · 自动规划预算 ${formatMinutes(plan.budgetMinutes)} · 计划刚刚生成`;
+        root.querySelector(&#x27;[data-session-time]&#x27;).textContent = `0:00 / ${formatClock(Math.round(plan.hours * 60))}`;
+        root.querySelector(&#x27;[data-plan-value]&#x27;).textContent = `${plan.routeValue} 金`;
+        root.querySelector(&#x27;[data-plan-generated-value]&#x27;).textContent = `生成时 ${plan.routeValue} 金`;
+        root.querySelector(&#x27;[data-route-efficiency]&#x27;).textContent = plan.routeMinutes
+          ? `${Math.round(plan.routeValue * 60 / plan.routeMinutes)} 金/时`
+          : &#x27;—&#x27;;
+        const itemCount = plan.taskCount + (plan.raid ? 1 : 0);
+        root.querySelector(&#x27;[data-plan-progress]&#x27;).textContent = `0 / ${itemCount}`;
+        root.querySelector(&#x27;[data-plan-progress-note]&#x27;).textContent = &#x27;预计耗时均由系统推算&#x27;;
+        root.querySelector(&#x27;[data-plan-total]&#x27;).textContent = `计划总计 ${plan.totalMinutes} 分钟`;
+        root.querySelector(&#x27;[data-route-total]&#x27;).textContent = `总计 ${plan.routeMinutes} 分钟`;
+        root.querySelector(&#x27;[data-plan-start]&#x27;).textContent = plan.regionLabel;
+        root.querySelector(&#x27;[data-plan-notice]&#x27;).textContent = &#x27;计划已按当前参数生成；预计耗时为只读，后续学习结果将在重新规划时采用。&#x27;;
+
+        planRaid.style.display = plan.raid ? &#x27;&#x27; : &#x27;none&#x27;;
+        if (plan.raid) {
+          root.querySelector(&#x27;[data-plan-raid-name]&#x27;).textContent = plan.raid.dataset.raidName;
+          root.querySelector(&#x27;[data-plan-raid-detail]&#x27;).textContent = `普通时间块 · ${plan.raid.dataset.raidStatus} · 预计 ${plan.raidMinutes} 分钟 · 已包含集合与前往`;
+        }
+
+        planSteps.forEach((step, index) =&gt; {
+          const stepPlan = plan.steps[index];
+          step.style.display = stepPlan.included ? &#x27;&#x27; : &#x27;none&#x27;;
+          if (index === 0 &amp;&amp; stepPlan.included) {
+            root.querySelector(&#x27;[data-first-move-detail]&#x27;).textContent = `预计 ${stepPlan.minutes} 分钟 · 来源：系统自动推算`;
+          }
+          if (step.dataset.stepKind === &#x27;task&#x27;) {
+            step.dataset.complete = &#x27;false&#x27;;
+            step.dataset.expanded = &#x27;false&#x27;;
+            const toggle = step.querySelector(&#x27;.todo-task-toggle&#x27;);
+            if (toggle) {
+              toggle.textContent = &#x27;＋&#x27;;
+              toggle.setAttribute(&#x27;aria-label&#x27;, &#x27;展开任务详情&#x27;);
+            }
+          }
+        });
+      };
+
+      tabs.forEach((tab) =&gt; {
+        tab.addEventListener(&#x27;click&#x27;, () =&gt; {
+          const name = tab.dataset.tab;
+          tabs.forEach((item) =&gt; item.setAttribute(&#x27;aria-selected&#x27;, String(item === tab)));
+          pages.forEach((page) =&gt; page.dataset.active = String(page.dataset.page === name));
+        });
+      });
+
+      root.querySelectorAll(&#x27;[data-open-setup]&#x27;).forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; overlay.dataset.open = &#x27;true&#x27;);
+      });
+
+      root.querySelectorAll(&#x27;[data-close-setup]&#x27;).forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; overlay.dataset.open = &#x27;false&#x27;);
+      });
+
+      root.querySelectorAll(&#x27;[data-mode]&#x27;).forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; {
+          root.querySelectorAll(&#x27;[data-mode]&#x27;).forEach((item) =&gt; item.setAttribute(&#x27;aria-pressed&#x27;, String(item === button)));
+          raidPicker.dataset.visible = String(button.dataset.mode === &#x27;holiday&#x27;);
+          updateEstimatedDuration();
+        });
+      });
+
+      const updateBudget = () =&gt; {
+        const hours = Math.max(0, Number(hoursInput.value) || 0);
+        const totalMinutes = Math.round(hours * 60 * 0.85);
+        budgetPreview.textContent = `自动规划预算：${formatMinutes(totalMinutes)}（预设本次可玩时长的 85%）`;
+        updateEstimatedDuration();
+      };
+
+      hoursInput.addEventListener(&#x27;input&#x27;, updateBudget);
+      startRegionInput.addEventListener(&#x27;change&#x27;, updateEstimatedDuration);
+      root.querySelectorAll(&#x27;input[name=&quot;todo-raid&quot;]&#x27;).forEach((radio) =&gt; {
+        radio.addEventListener(&#x27;change&#x27;, updateEstimatedDuration);
+      });
+
+      root.querySelectorAll(&#x27;[data-task-row]&#x27;).forEach((row) =&gt; {
+        const button = row.querySelector(&#x27;.todo-task-toggle&#x27;);
+        if (!button) return;
+        button.addEventListener(&#x27;click&#x27;, () =&gt; {
+          if (row.dataset.complete === &#x27;true&#x27;) {
+            row.dataset.complete = &#x27;false&#x27;;
+            button.textContent = &#x27;＋&#x27;;
+            return;
+          }
+          const expanded = row.dataset.expanded === &#x27;true&#x27;;
+          row.dataset.expanded = String(!expanded);
+          button.textContent = expanded ? &#x27;＋&#x27; : &#x27;－&#x27;;
+        });
+      });
+
+      root.querySelectorAll(&#x27;[data-add-task]&#x27;).forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; {
+          button.textContent = &#x27;已加入&#x27;;
+          button.disabled = true;
+        });
+      });
+
+      const candidateSearch = root.querySelector(&#x27;[data-candidate-search]&#x27;);
+      const candidateItems = [...root.querySelectorAll(&#x27;[data-candidate-item]&#x27;)];
+      const candidateGroups = [...root.querySelectorAll(&#x27;[data-candidate-group]&#x27;)];
+      const searchCount = root.querySelector(&#x27;[data-search-count]&#x27;);
+      const searchEmpty = root.querySelector(&#x27;[data-search-empty]&#x27;);
+      const normalizeSearch = (value) =&gt; String(value || &#x27;&#x27;).toLocaleLowerCase().trim().replace(/\s+/g, &#x27; &#x27;);
+      const updateCandidateSearch = () =&gt; {
+        const tokens = normalizeSearch(candidateSearch.value).split(&#x27; &#x27;).filter(Boolean);
+        let visibleTotal = 0;
+
+        candidateItems.forEach((item) =&gt; {
+          const haystack = normalizeSearch(`${item.dataset.searchText || &#x27;&#x27;} ${item.textContent}`);
+          const visible = tokens.every((token) =&gt; haystack.includes(token));
+          item.dataset.searchHidden = String(!visible);
+          if (visible) visibleTotal += 1;
+        });
+
+        candidateGroups.forEach((group) =&gt; {
+          const visibleInGroup = [...group.querySelectorAll(&#x27;[data-candidate-item]&#x27;)]
+            .filter((item) =&gt; item.dataset.searchHidden !== &#x27;true&#x27;).length;
+          group.dataset.searchHidden = String(visibleInGroup === 0);
+          const count = group.querySelector(&#x27;[data-group-count]&#x27;);
+          if (count) count.textContent = `${visibleInGroup} 项`;
+        });
+
+        searchCount.textContent = `匹配 ${visibleTotal} / 全部 ${candidateItems.length}`;
+        searchEmpty.hidden = visibleTotal !== 0;
+      };
+
+      candidateSearch.addEventListener(&#x27;input&#x27;, updateCandidateSearch);
+      root.querySelector(&#x27;[data-clear-search]&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+        candidateSearch.value = &#x27;&#x27;;
+        updateCandidateSearch();
+        candidateSearch.focus();
+      });
+
+      const importButton = root.querySelector(&#x27;[data-import-auction]&#x27;);
+      const importResult = root.querySelector(&#x27;[data-import-result]&#x27;);
+      importButton.addEventListener(&#x27;click&#x27;, () =&gt; {
+        importButton.textContent = &#x27;已导入&#x27;;
+        importButton.disabled = true;
+        importResult.hidden = false;
+      });
+
+      root.querySelector(&#x27;[data-generate]&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+        applyPlanPreview(getPlanPreview());
+        overlay.dataset.open = &#x27;false&#x27;;
+        tabs[0].click();
+      });
+    })();
+  &lt;/script&gt;
+&lt;/section&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handleLeave = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>
